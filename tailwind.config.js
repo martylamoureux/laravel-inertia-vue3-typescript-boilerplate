@@ -1,17 +1,16 @@
 module.exports = {
-  purge: [
-      './resources/**/*.blade.php',
-      './resources/**/*.js',
-      './resources/**/*.vue',
-      './app/Domain/**/*.vue',
-      './app/Domain/**/*.js',
-  ],
-  darkMode: false, // or 'media' or 'class'
-  theme: {
-    extend: {},
-  },
-  variants: {
-    extend: {},
-  },
-  plugins: [],
+    mode: "jit",
+    purge: [
+        './resources/**/*.blade.php',
+        './resources/**/*.{js,ts,vue}',
+        './app/Domain/**/*.{js,ts,vue}',
+    ],
+    darkMode: false, // or 'media' or 'class'
+    theme: {
+        extend: {},
+    },
+    variants: {
+        extend: {},
+    },
+    plugins: [],
 }

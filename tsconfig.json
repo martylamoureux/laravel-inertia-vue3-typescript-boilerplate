@@ -6,10 +6,15 @@
         "strict": true,
         "sourceMap": true,
         "allowJs": true,
+        "allowSyntheticDefaultImports": true,
         "typeRoots": [
             "node_modules/@types",
-            "resources/js/@types"
-        ]
+        ],
+        "baseUrl": ".",
+        "paths": {
+            "@/*": ["resources/js/*"],
+            "ziggy/*": ["vendor/tightenco/ziggy/dist/*"],
+        }
     },
     "exclude": [
         "node_modules"
