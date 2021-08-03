@@ -16,3 +16,4 @@ yarn-error.log
 /public/css
 /public/mix-manifest.json
 /resources/js/componentResolver.js
+/resources/js/ziggy.generated.js
