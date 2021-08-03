@@ -13,10 +13,10 @@ class PostsController extends Controller
 {
     public function index()
     {
-        $posts = Post::all();
+        $posts = Post::query()->paginate();
 
         return Inertia::render("Blog::Index")
-                      ->with("posts", PostDTO::collection($posts));
+                      ->with("posts", PostDTO::paginated($posts));
     }
 
     public function create()
