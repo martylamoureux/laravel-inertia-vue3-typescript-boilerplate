@@ -7,8 +7,8 @@ use Inertia\Inertia;
 
 class HomeController extends Controller
 {
-    public function index($name = "World")
+    public function index()
     {
-        return Inertia::render("Home::Ui")->with("name", $name);
+        return Inertia::render("Home::Index");
     }
 }
