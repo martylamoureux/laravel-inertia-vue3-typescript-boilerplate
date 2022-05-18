@@ -12,20 +12,49 @@ class DTO extends DataTransferObject
     public ?int $id;
     public bool $__exists = false;
 
-    public final static function make(Model $model)
+    /**
+     * @throws UnknownProperties
+     */
+    public static function make(Model|array $model) : static
     {
-        return new static(array_merge($model->toArray(), [
-            "__exists" => $model->exists
-        ]));
+        if ($model instanceof Model) {
+
+            $dtoHasAuthorizationsTrait = array_key_exists(HasAuthorizations::class, (new \ReflectionClass(static::class))->getTraits());
+            $modelHasAuthorizationsTrait = array_key_exists(\App\Models\HasAuthorizations::class, (new \ReflectionClass($model))->getTraits());
+            if ($dtoHasAuthorizationsTrait && $modelHasAuthorizationsTrait) {
+                $model->append("authorizations_representations");
+            }
+
+            $data = array_merge($model->toArray(), [
+                "__exists" => $model->exists
+            ]);
+        } else {
+            $data = $model;
+        }
+
+
+        return new static($data);
     }
 
-    public final static function collection(Collection $collection)
+    public static function collection(Collection|array $collection)
     {
-        return $collection->map(fn (Model $model) => static::make($model));
+        return collect($collection)->map(fn (Model $model) => static::make($model))->toArray();
     }
 
-    public final static function paginated(LengthAwarePaginator $paginator)
+    /**
+     * @throws UnknownProperties
+     */
+    final public static function paginated(LengthAwarePaginator $paginator)
     {
+        $data = collect($paginator->getCollection()->map(fn (Model $model) => static::make($model)->toArray()));
+        $paginator->setCollection($data);
         return new PaginatorDTO($paginator->toArray());
     }
+
+    public function toResponse($request)
+    {
+        return response()->json($this->toArray());
+    }
+
+
 }
